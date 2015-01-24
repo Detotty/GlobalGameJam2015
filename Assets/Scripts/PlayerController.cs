@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 
 	public Plate plate;
 	public Text counterText;
+	public AnimTriggers animTriggers;
 
 	private Hand lastHandUsed;
 	private int foodCounter;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour {
 
 			foodCounter++;
 			counterText.text = foodCounter.ToString();
+
+			animTriggers.IsEating(true);
 
 			lastHandUsed = hand;
 		}

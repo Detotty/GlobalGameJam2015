@@ -3,8 +3,13 @@ using System.Collections;
 
 public class AnimTriggers : MonoBehaviour
 {	
+
+	private const float EATING_IDLE_TIMEOUT = 0.6f;
+
 	// Create a reference to the animator component
 	private Animator animator;
+
+	private float eatingIdleTimer;
 	
 	
 	void Start ()
@@ -29,6 +34,28 @@ public class AnimTriggers : MonoBehaviour
 		if(col.gameObject.name == "JumpTrigger")
 		{
 			animator.SetBool("JumpDown", false);
+		}
+	}
+
+	public void IsEating(bool eating)
+	{
+		animator.SetBool("Eating", eating);
+		if(eating)
+		{
+			eatingIdleTimer = EATING_IDLE_TIMEOUT;
+		}
+	}
+
+	public void Update()
+	{
+		if(eatingIdleTimer > 0.0f)
+		{
+			eatingIdleTimer -= Time.deltaTime;
+			if(eatingIdleTimer <= 0.0f)
+			{
+				IsEating(false);
+				eatingIdleTimer = 0.0f;
+			}
 		}
 	}
 }
