@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public enum Hand
 {
@@ -11,8 +12,10 @@ public enum Hand
 public class PlayerController : MonoBehaviour {
 
 	public Plate plate;
+	public Text counterText;
 
 	private Hand lastHandUsed;
+	private int foodCounter;
 
 	public void EatWithHand(Hand hand)
 	{
@@ -21,6 +24,9 @@ public class PlayerController : MonoBehaviour {
 		{
 			GameObject foodBit = plate.PickUpFood();
 			Destroy(foodBit);
+
+			foodCounter++;
+			counterText.text = foodCounter.ToString();
 
 			lastHandUsed = hand;
 		}

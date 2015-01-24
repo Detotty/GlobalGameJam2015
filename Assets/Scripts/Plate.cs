@@ -18,7 +18,7 @@ public class Plate : MonoBehaviour {
 	{
 		foreach(Transform child in foodBitHolder)
 		{
-			foodBits.Add(child.gameObject);
+			foodBits.Insert(0,child.gameObject);
 		}
 	}
 
