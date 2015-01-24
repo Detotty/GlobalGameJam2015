@@ -12,11 +12,11 @@ public class PlayerInput : MonoBehaviour {
 	{
 		if(Input.GetKeyDown(leftHandKey))
 		{
-			playerController.EatWithHand(Hand.LeftHand);
+			playerController.ActionWithHand(Hand.LeftHand);
 		}
 		else if(Input.GetKeyDown(rightHandKey))
 		{
-			playerController.EatWithHand(Hand.RightHand);
+			playerController.ActionWithHand(Hand.RightHand);
 		}
 	}
 }

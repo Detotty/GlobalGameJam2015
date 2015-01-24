@@ -5,12 +5,13 @@ public class AnimTriggers : MonoBehaviour
 {	
 
 	private const float EATING_IDLE_TIMEOUT = 0.6f;
+	private const float RACING_IDLE_TIMEOUT = 0.5f;
 
 	// Create a reference to the animator component
 	private Animator animator;
 
 	private float eatingIdleTimer;
-	
+	private float racingIdleTimer;
 	
 	void Start ()
 	{
@@ -45,6 +46,15 @@ public class AnimTriggers : MonoBehaviour
 			eatingIdleTimer = EATING_IDLE_TIMEOUT;
 		}
 	}
+	
+	public void IsRacing(bool racing)
+	{
+		animator.SetBool("Racing", racing);
+		if(racing)
+		{
+			racingIdleTimer = RACING_IDLE_TIMEOUT;
+		}
+	}
 
 	public void Update()
 	{
@@ -55,6 +65,16 @@ public class AnimTriggers : MonoBehaviour
 			{
 				IsEating(false);
 				eatingIdleTimer = 0.0f;
+			}
+		}
+
+		if(racingIdleTimer > 0.0f)
+		{
+			racingIdleTimer -= Time.deltaTime;
+			if(racingIdleTimer <= 0.0f)
+			{
+				IsRacing(false);
+				racingIdleTimer = 0.0f;
 			}
 		}
 	}
