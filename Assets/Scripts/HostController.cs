@@ -45,7 +45,7 @@ public class HostController : MonoBehaviour {
 		switch(stage)
 		{
 		case GameStage.StageIntro1:
-			return "Hello and welcome to the Chowdown Showdown! I'm your host Chef Dickie. Go grab a friend to play with you.";
+			return "Welcome to the Chowdown Showdown! I'm your host Chef Dickie. Go grab a friend to play with you. The game is simple: whoever can eat the most food wins";
 		case GameStage.StageIntro2:
 			return "The game is simple: there is a large plate of junk food sitting between the two of you. Whoever eats the most amount of food in the shortest time is crowned our winner!";
 		case GameStage.StageIntro3:
@@ -61,7 +61,7 @@ public class HostController : MonoBehaviour {
 		case GameStage.StageBathroomZoomIn:
 			return "ONE BATHROOM";
 		case GameStage.StageRacingSetup:
-			return "Looks like its a foot race now to see who can make it there first. "+gameController.EatingLoserName+" looks like you had less to eat so you should be able to waddle there a bit faster.";
+			return "Looks like its a foot race now. "+gameController.EatingLoserName+" ate less so they will be faster. Use the same buttons as before to waddle your way to the bathroom";
 		case GameStage.StageRacingSetup2:
 			return "Remember the buttons you used to shovel all that laxative food into your mouth? Use those same ones to run to the bathroom!";
 		case GameStage.StageRacingResolution:

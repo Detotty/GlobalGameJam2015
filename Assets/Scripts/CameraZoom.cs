@@ -7,7 +7,7 @@ public class CameraZoom : MonoBehaviour {
 
 	public event CameraZoomed OnZoomComplete;
 
-	private float _stopThreshold = 1.0f;
+	private float _stopThreshold = 5.0f;
 
 	public void Zoom(float zCoord, float speed)
 	{

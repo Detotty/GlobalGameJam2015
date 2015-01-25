@@ -42,6 +42,11 @@ public class GameController : MonoBehaviour {
 	private bool zoomedOutYet;
 	private float cameraZoomStartZCoord;
 
+	private PlayerController raceLoser;
+	private PlayerController raceWinnner;
+
+	private bool continueLocked;
+
 	// Use this for initialization
 	void Start () {
 		StartStage(GameStage.StageStart);
@@ -67,18 +72,22 @@ public class GameController : MonoBehaviour {
 			if(player1Dist <= raceWithThreshold)
 			{
 				RaceLoserName = "Player 2";
+				raceLoser = player2;
+				raceWinnner = player1;
 				StartStage(CurrentStage+1);
 			}
 			else if(player2Dist <= raceWithThreshold)
 			{
 				RaceLoserName = "Player 1";
+				raceLoser = player1;
+				raceWinnner = player2;
 				StartStage(CurrentStage+1);
 			}
 		}
 		//TODO other non space to continue stages
 		else
 		{
-			if(Input.GetKeyDown("space"))
+			if(Input.GetKeyDown("space") && !continueLocked)
 			{
 				StartStage(CurrentStage+1);
 			}
@@ -96,31 +105,35 @@ public class GameController : MonoBehaviour {
 		case GameStage.StageIntro2:
 		case GameStage.StageIntro3:
 		case GameStage.StageIntro4:
-		case GameStage.StageIntro5:
 		case GameStage.StageEating:
 		case GameStage.StageTurn:
 		case GameStage.StageTurn2:
 		case GameStage.StageRacingSetup:
-		case GameStage.StageRacingSetup2:
-		case GameStage.StageRacingResolution:
 			break;
 		case GameStage.StageGameOver:
 			//Show credits
+			//Restart scene?
+			Application.LoadLevel (0);
 			break;
 		case GameStage.StageRacing:
 			player1.UpdateSpeedForFatness();
 			player2.UpdateSpeedForFatness();
 			break;
 		case GameStage.StageBathroomZoomIn:
+			continueLocked = true;
 			player1.PerformStageAction();
 			player2.PerformStageAction();
 			cameraGO.GetComponent<SimpleFollowCamera>().enabled = false;
 			cameraZoomStartZCoord = cameraGO.transform.position.z;
 			cameraGO.GetComponent<CameraZoom>().OnZoomComplete += HandleOnZoomComplete;
-			cameraGO.GetComponent<CameraZoom>().Zoom(50,50);
+			cameraGO.GetComponent<CameraZoom>().Zoom(50,75);
 			break;
 		case GameStage.StageBathroomZoomOut:
 			cameraGO.GetComponent<CameraZoom>().Zoom(cameraZoomStartZCoord,-100);
+			break;
+		case GameStage.StageRacingResolution:
+			raceWinnner.WalkIntoBathroom();
+			raceLoser.PerformRaceLosingAnimation();
 			break;
 		default:
 			StartStage(newStage+1);
@@ -133,6 +146,7 @@ public class GameController : MonoBehaviour {
 		if(!zoomedOutYet)
 		{
 			zoomedOutYet = true;
+			continueLocked = false;
 		}
 		else
 		{

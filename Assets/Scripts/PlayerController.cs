@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour {
 
 	private Hand lastHandUsed;
 
+	private bool isRaceWinner;
+
 	public void ActionWithHand(Hand hand)
 	{
 		bool correctHand = lastHandUsed == Hand.UnknownHand || lastHandUsed != hand;
@@ -55,8 +57,10 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(BodyTarget != null)
 		{
+			Vector3 bodyTargetPos = BodyTarget.transform.position;
+			bodyTargetPos.y = transform.position.y;
 			//find the vector pointing from our position to the target
-			bodyDirection = (BodyTarget.position - transform.position).normalized;
+			bodyDirection = (bodyTargetPos - transform.position).normalized;
 			
 			//create the rotation we need to be in to look at the target
 			bodyLookRotation = Quaternion.LookRotation(bodyDirection);
@@ -67,8 +71,17 @@ public class PlayerController : MonoBehaviour {
 
 		if(forwardVelocity > 0.0f)
 		{
-			transform.position += new Vector3(0,0,forwardVelocity * Time.deltaTime);
-			forwardVelocity = Mathf.Max(0.0f,forwardVelocity - forwardDeceleration * Time.deltaTime);
+			if(!isRaceWinner)
+			{
+				transform.position += new Vector3(0,0,forwardVelocity * Time.deltaTime);
+				forwardVelocity = Mathf.Max(0.0f,forwardVelocity - forwardDeceleration * Time.deltaTime);
+			}
+			else
+			{
+				int multi = playerNumber == 2 ? -1 : 1;
+				transform.position += new Vector3(multi * forwardVelocity * Time.deltaTime,0,forwardVelocity * Time.deltaTime);
+				animTriggers.IsRacing(true);
+			}
 		}
 	}
 
@@ -77,7 +90,6 @@ public class PlayerController : MonoBehaviour {
 		float speedMutliplier = Mathf.Abs(plate.StartingFoodBitCount - FoodCounter) / (float)plate.StartingFoodBitCount;
 		forwardVelocityMax = forwardVelocityMax + speedMutliplier * forwardVelocityMax;
 		forwardAcceleration = forwardAcceleration + speedMutliplier * forwardAcceleration;
-		Debug.Log("new max is "+forwardVelocityMax);
 	}
 
 	public void PerformStageAction()
@@ -108,5 +120,18 @@ public class PlayerController : MonoBehaviour {
 		{
 			BodyTarget = GameObject.Find("Player"+playerNumber+"Goal").transform;
 		}
+	}
+
+	public void WalkIntoBathroom()
+	{
+		forwardVelocity = forwardVelocityMax;
+		BodyTarget = GameObject.Find("Player"+playerNumber+"WinnerTarget").transform;
+		isRaceWinner = true;
+	}
+
+	public void PerformRaceLosingAnimation()
+	{
+		BodyTarget = GameObject.Find("Main Camera").transform;
+		animTriggers.TriggerOneOffAnimation("Cold");
 	}
 }
