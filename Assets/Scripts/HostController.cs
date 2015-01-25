@@ -9,6 +9,7 @@ public class HostController : MonoBehaviour {
 	public Text DialogText;
 	public Text ContinueText;
 	public GameController gameController;
+	public AnimTriggers animTriggers;
 	
 	public void PerformActionForStage()
 	{
@@ -19,12 +20,16 @@ public class HostController : MonoBehaviour {
 		case GameStage.StageIntro3:
 		case GameStage.StageIntro4:
 		case GameStage.StageIntro5:
-		case GameStage.StageTurn:
 		case GameStage.StageTurn2:
 		case GameStage.StageBathroomZoomIn:
 		case GameStage.StageRacingSetup:
 		case GameStage.StageRacingSetup2:
 		case GameStage.StageRacingResolution:
+			SetVisible(true);
+			DialogText.text = DialogForStage(gameController.CurrentStage);
+			break;
+		case GameStage.StageTurn:
+			animTriggers.TriggerOneOffAnimation("Laughing");
 			SetVisible(true);
 			DialogText.text = DialogForStage(gameController.CurrentStage);
 			break;
