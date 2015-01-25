@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Plate : MonoBehaviour {
+
+	public int StartingFoodBitCount {get; private set;}
 	
 	private List<GameObject> foodBits;
 
@@ -20,6 +22,7 @@ public class Plate : MonoBehaviour {
 		{
 			foodBits.Insert(0,child.gameObject);
 		}
+		StartingFoodBitCount = foodBits.Count;
 	}
 
 	public GameObject PickUpFood()

@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour {
 	public Transform BodyTarget;
 	public float BodyRotationSpeed;
 
+	public int FoodCounter {get; private set;}
+
 	[SerializeField]
 	private int playerNumber;
 
@@ -38,7 +40,6 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 bodyDirection;
 
 	private Hand lastHandUsed;
-	private int foodCounter;
 
 	public void ActionWithHand(Hand hand)
 	{
@@ -71,6 +72,14 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	public void UpdateSpeedForFatness()
+	{
+		float speedMutliplier = Mathf.Abs(plate.StartingFoodBitCount - FoodCounter) / (float)plate.StartingFoodBitCount;
+		forwardVelocityMax = forwardVelocityMax + speedMutliplier * forwardVelocityMax;
+		forwardAcceleration = forwardAcceleration + speedMutliplier * forwardAcceleration;
+		Debug.Log("new max is "+forwardVelocityMax);
+	}
+
 	public void PerformStageAction()
 	{
 		if(gameController.CurrentStage == GameStage.StageEating)
@@ -80,8 +89,8 @@ public class PlayerController : MonoBehaviour {
 				GameObject foodBit = plate.PickUpFood();
 				Destroy(foodBit);
 				
-				foodCounter++;
-				counterText.text = foodCounter.ToString();
+				FoodCounter++;
+				counterText.text = FoodCounter.ToString();
 				
 				animTriggers.IsEating(true);
 			}

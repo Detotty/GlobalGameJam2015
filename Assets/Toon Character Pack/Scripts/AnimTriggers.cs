@@ -38,6 +38,11 @@ public class AnimTriggers : MonoBehaviour
 		}
 	}
 
+	public void TriggerOneOffAnimation(string triggerName)
+	{
+		animator.SetBool(triggerName,true);
+	}
+
 	public void IsEating(bool eating)
 	{
 		animator.SetBool("Eating", eating);
