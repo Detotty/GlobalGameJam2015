@@ -22,6 +22,13 @@ public class Plate : MonoBehaviour {
 		{
 			foodBits.Insert(0,child.gameObject);
 		}
+
+		foodBits.Sort(delegate(GameObject one, GameObject two)
+		{
+			if (one.transform.position.y == two.transform.position.y) return 0;
+			else if (one.transform.position.y > two.transform.position.y) return -1;
+			else return 1;
+		});
 		StartingFoodBitCount = foodBits.Count;
 	}
 

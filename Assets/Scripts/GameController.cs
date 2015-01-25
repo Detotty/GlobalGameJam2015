@@ -9,7 +9,7 @@ public enum GameStage
 	StageIntro3,
 	StageIntro4,
 	StageIntro5,
-	StageCoutdown,
+	StageCountdown,
 	StageEating,
 	StageEatingResolution,
 	StageTurn,
@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour {
 	public PlayerController player2;
 	public HostController host;
 	public GameObject cameraGO;
+	public Countdown countdown;
 
 	public GameStage CurrentStage {get; private set;}
 
@@ -94,7 +95,14 @@ public class GameController : MonoBehaviour {
 		{
 			//NO-OP wait for invoke
 		}
-		//TODO other non space to continue stages
+		else if(CurrentStage == GameStage.StageCountdown2)
+		{
+			//NO-OP wait for event
+		}
+		else if(CurrentStage == GameStage.StageCountdown)
+		{
+			//NO-OP wait for event
+		}
 		else
 		{
 			if(Input.GetKeyDown("space") && !continueLocked)
@@ -112,9 +120,9 @@ public class GameController : MonoBehaviour {
 		switch(newStage)
 		{
 		case GameStage.StageIntro1:
-		case GameStage.StageIntro2:
 		case GameStage.StageIntro3:
 		case GameStage.StageIntro4:
+		case GameStage.StageIntro5:
 		case GameStage.StageEating:
 		case GameStage.StageTurn2:
 		case GameStage.StageRacingSetup:
@@ -151,10 +159,23 @@ public class GameController : MonoBehaviour {
 			raceWinnner.WalkIntoBathroom();
 			raceLoser.PerformRaceLosingAnimation();
 			break;
+		case GameStage.StageCountdown:
+			countdown.OnCountdownComplete += HandleOnCountdownComplete;
+			countdown.StartCountdown();
+			break;
+		case GameStage.StageCountdown2:
+			countdown.StartCountdown();
+			break;
 		default:
 			StartStage(newStage+1);
 			return;
 		}
+	}
+
+	void HandleOnCountdownComplete ()
+	{
+		Debug.Log("CountdownComplete");
+		MoveToNextStage();
 	}
 
 	void MoveToNextStage()
