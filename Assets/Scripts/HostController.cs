@@ -29,7 +29,7 @@ public class HostController : MonoBehaviour {
 			DialogText.text = DialogForStage(gameController.CurrentStage);
 			break;
 		case GameStage.StageTurn:
-			animTriggers.TriggerOneOffAnimation("Laughing");
+			animTriggers.TriggerAnimation("Laughing");
 			SetVisible(true);
 			DialogText.text = DialogForStage(gameController.CurrentStage);
 			break;

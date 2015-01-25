@@ -38,9 +38,14 @@ public class AnimTriggers : MonoBehaviour
 		}
 	}
 
-	public void TriggerOneOffAnimation(string triggerName)
+	public void TriggerAnimation(string triggerName)
 	{
-		animator.SetBool(triggerName,true);
+		animator.SetTrigger(triggerName);
+	}
+
+	public void SetAnimationBool(string boolName)
+	{
+		animator.SetBool(boolName,true);
 	}
 
 	public void IsEating(bool eating)

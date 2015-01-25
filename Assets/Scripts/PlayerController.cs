@@ -132,6 +132,16 @@ public class PlayerController : MonoBehaviour {
 	public void PerformRaceLosingAnimation()
 	{
 		BodyTarget = GameObject.Find("Main Camera").transform;
-		animTriggers.TriggerOneOffAnimation("Cold");
+		animTriggers.SetAnimationBool("Cold");
+	}
+
+	public void PerformEatingWinnerAnimation()
+	{
+		animTriggers.TriggerAnimation("Celebrating");
+	}
+
+	public void PerformEatingLoserAnimation()
+	{
+		animTriggers.TriggerAnimation("Upset");
 	}
 }

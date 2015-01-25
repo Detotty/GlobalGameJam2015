@@ -11,6 +11,7 @@ public enum GameStage
 	StageIntro5,
 	StageCoutdown,
 	StageEating,
+	StageEatingResolution,
 	StageTurn,
 	StageTurn2,
 	StageBathroomZoomIn,
@@ -45,6 +46,9 @@ public class GameController : MonoBehaviour {
 	private PlayerController raceLoser;
 	private PlayerController raceWinnner;
 
+	private PlayerController eatingLoser;
+	private PlayerController eatingWinnner;
+
 	private bool continueLocked;
 
 	// Use this for initialization
@@ -60,6 +64,8 @@ public class GameController : MonoBehaviour {
 			{
 				EatingWinnerName = player1.FoodCounter > player2.FoodCounter ? "player 1" : "player 2";
 				EatingLoserName = player1.FoodCounter > player2.FoodCounter ? "Player 2" : "Player 1";
+				eatingWinnner = player1.FoodCounter > player2.FoodCounter ? player1 : player2;
+				eatingLoser = player1.FoodCounter > player2.FoodCounter ? player2 : player1;
 				StartStage(GameStage.StageEating + 1);
 			}
 		}
@@ -84,6 +90,10 @@ public class GameController : MonoBehaviour {
 				StartStage(CurrentStage+1);
 			}
 		}
+		else if(CurrentStage == GameStage.StageEatingResolution)
+		{
+			//NO-OP wait for invoke
+		}
 		//TODO other non space to continue stages
 		else
 		{
@@ -106,7 +116,6 @@ public class GameController : MonoBehaviour {
 		case GameStage.StageIntro3:
 		case GameStage.StageIntro4:
 		case GameStage.StageEating:
-		case GameStage.StageTurn:
 		case GameStage.StageTurn2:
 		case GameStage.StageRacingSetup:
 			break;
@@ -115,9 +124,16 @@ public class GameController : MonoBehaviour {
 			//Restart scene?
 			Application.LoadLevel (0);
 			break;
+		case GameStage.StageEatingResolution:
+			eatingWinnner.PerformEatingWinnerAnimation();
+			eatingLoser.PerformEatingLoserAnimation();
+			Invoke("MoveToNextStage",3.0f);
+			break;
 		case GameStage.StageRacing:
 			player1.UpdateSpeedForFatness();
 			player2.UpdateSpeedForFatness();
+			break;
+		case GameStage.StageTurn:
 			break;
 		case GameStage.StageBathroomZoomIn:
 			continueLocked = true;
@@ -139,6 +155,11 @@ public class GameController : MonoBehaviour {
 			StartStage(newStage+1);
 			return;
 		}
+	}
+
+	void MoveToNextStage()
+	{
+		StartStage(CurrentStage+1);
 	}
 
 	void HandleOnZoomComplete ()
