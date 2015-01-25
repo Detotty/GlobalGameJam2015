@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour {
 			animTriggers.IsRacing(true);
 			forwardVelocity = Mathf.Min(forwardVelocityMax, forwardVelocity + forwardAcceleration);
 		}
-		else if(gameController.CurrentStage == GameStage.StageBathroomZoom)
+		else if(gameController.CurrentStage == GameStage.StageBathroomZoomIn)
 		{
 			BodyTarget = GameObject.Find("Player"+playerNumber+"Goal").transform;
 		}

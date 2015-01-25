@@ -13,7 +13,8 @@ public enum GameStage
 	StageEating,
 	StageTurn,
 	StageTurn2,
-	StageBathroomZoom,
+	StageBathroomZoomIn,
+	StageBathroomZoomOut,
 	StageRacingSetup,
 	StageRacingSetup2,
 	StageCountdown2,
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour {
 	public PlayerController player1;
 	public PlayerController player2;
 	public HostController host;
+	public GameObject cameraGO;
 
 	public GameStage CurrentStage {get; private set;}
 
@@ -36,6 +38,9 @@ public class GameController : MonoBehaviour {
 	public string RaceLoserName {get; private set;}
 
 	private float raceWithThreshold = 12.0f;
+
+	private bool zoomedOutYet;
+	private float cameraZoomStartZCoord;
 
 	// Use this for initialization
 	void Start () {
@@ -106,14 +111,33 @@ public class GameController : MonoBehaviour {
 			player1.UpdateSpeedForFatness();
 			player2.UpdateSpeedForFatness();
 			break;
-		case GameStage.StageBathroomZoom:
+		case GameStage.StageBathroomZoomIn:
 			player1.PerformStageAction();
 			player2.PerformStageAction();
-//			StartStage(newStage+1);
+			cameraGO.GetComponent<SimpleFollowCamera>().enabled = false;
+			cameraZoomStartZCoord = cameraGO.transform.position.z;
+			cameraGO.GetComponent<CameraZoom>().OnZoomComplete += HandleOnZoomComplete;
+			cameraGO.GetComponent<CameraZoom>().Zoom(50,50);
+			break;
+		case GameStage.StageBathroomZoomOut:
+			cameraGO.GetComponent<CameraZoom>().Zoom(cameraZoomStartZCoord,-100);
 			break;
 		default:
 			StartStage(newStage+1);
 			return;
+		}
+	}
+
+	void HandleOnZoomComplete ()
+	{
+		if(!zoomedOutYet)
+		{
+			zoomedOutYet = true;
+		}
+		else
+		{
+			cameraGO.GetComponent<SimpleFollowCamera>().enabled = true;
+			StartStage(CurrentStage+1);
 		}
 	}
 }

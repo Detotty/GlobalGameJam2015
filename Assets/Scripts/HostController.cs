@@ -21,7 +21,7 @@ public class HostController : MonoBehaviour {
 		case GameStage.StageIntro5:
 		case GameStage.StageTurn:
 		case GameStage.StageTurn2:
-		case GameStage.StageBathroomZoom:
+		case GameStage.StageBathroomZoomIn:
 		case GameStage.StageRacingSetup:
 		case GameStage.StageRacingSetup2:
 		case GameStage.StageRacingResolution:
@@ -58,7 +58,7 @@ public class HostController : MonoBehaviour {
 			return "Don't celebreate quite yet "+gameController.EatingWinnerName+" What I didn't tell you at the start was that all of that food was made with an experimental new SUPER LAXATIVE.";
 		case GameStage.StageTurn2:
 			return "And the restaurant only has...";
-		case GameStage.StageBathroomZoom:
+		case GameStage.StageBathroomZoomIn:
 			return "ONE BATHROOM";
 		case GameStage.StageRacingSetup:
 			return "Looks like its a foot race now to see who can make it there first. "+gameController.EatingLoserName+" looks like you had less to eat so you should be able to waddle there a bit faster.";
