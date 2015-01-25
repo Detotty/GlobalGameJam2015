@@ -9,8 +9,6 @@ public class SimpleFollowCamera : MonoBehaviour {
 	[SerializeField]
 	private float _targetFollowDistance;
 
-	private float _jitterThreshold = 0.15f;
-
 	// Use this for initialization
 	void Start () {
 

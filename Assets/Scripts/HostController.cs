@@ -60,17 +60,17 @@ public class HostController : MonoBehaviour {
 		case GameStage.StageIntro5:
 			return "Are you ready for the Chowdown Showdown?";
 		case GameStage.StageTurn:
-			return "Don't celebreate quite yet "+gameController.EatingWinnerName+" What I didn't tell you at the start was that all of that food was made with an experimental new SUPER LAXATIVE.";
+			return "Don't celebrate quite yet "+gameController.EatingWinnerName+" What I didn't tell you at the start was that all of that food was made with an experimental new SUPER LAXATIVE.";
 		case GameStage.StageTurn2:
 			return "And the restaurant only has...";
 		case GameStage.StageBathroomZoomIn:
 			return "ONE BATHROOM";
 		case GameStage.StageRacingSetup:
-			return "Looks like its a foot race now. "+gameController.EatingLoserName+" ate less so they will be faster. Use the same buttons as before to waddle your way to the bathroom";
+			return "Guess what? Its a foot race now! "+gameController.EatingLoserName+" ate less so they will be faster. Use the same buttons as before to waddle your way to the bathroom";
 		case GameStage.StageRacingSetup2:
 			return "Remember the buttons you used to shovel all that laxative food into your mouth? Use those same ones to run to the bathroom!";
 		case GameStage.StageRacingResolution:
-			return ""+gameController.RaceLoserName+" is our loser. Join us next time on Chowdown Showdown";
+			return "Looks like "+gameController.RaceLoserName+" is going to have to do some laundry. Join us next time on Chowdown Showdown";
 		default:
 			return "";
 		}
